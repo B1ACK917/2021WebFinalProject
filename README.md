@@ -31,5 +31,10 @@
 - 要有文件上传功能。
 - 选题参考：博客、BBS、微博、Web聊天、记事本、留言板、旅游网站、购物网站。
 
- 
-            
+##  Utils
+
+- [animate.css](https://github.com/animate-css/animate.css)：跨浏览器的 css3 动画库
+- [tabler-icons](https://github.com/tabler/tabler-icons)：广受好评的矢量图标库
+- [Iconfont](https://www.iconfont.cn/)：阿里巴巴矢量图标库，但很多图标都是私有的不给看，辣鸡
+- [paste.ubuntu](https://paste.ubuntu.com/)：可参考的网站
+- ...
