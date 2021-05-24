@@ -1,7 +1,6 @@
 # 2021WebFinalProject
-<p align="right">
-    2021 专业技术实践 期末大作业
-</p>
+<p align="right">2021 专业技术实践 期末大作业</p>
+
 ## Todo
 
 - 完成组队表
