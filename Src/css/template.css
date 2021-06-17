@@ -1,0 +1,64 @@
+html {
+    font-family: 宋体;
+    font-size: 20px;
+}
+h1 {
+    font-size: 36px;
+}
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    height: 50px;
+    width: 100%;
+    z-index: 1;
+}
+.headPart{
+    display: inline-block;
+}
+#header img{
+    position: absolute;
+    left: 0px;
+    margin: 5px 0;
+    height: 40px;
+}
+#header a{
+    color: blue;
+    text-decoration: none;
+}
+.explore{
+    position: absolute;
+    top: 15px;
+    left: 10px;
+}
+.random{
+    position: absolute;
+    top: 15px;
+    left: 100px;
+}
+.search{
+    position: absolute;
+    top: 15px;
+    left: 190px;
+}
+.upload{
+    position: absolute;
+    top: 15px;
+    right: 110px;
+}
+.login{
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+body{
+    background-image: url("../images/background1.jpg");
+    background-size: cover;
+}
+.search_form{
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    left: 210px;
+}

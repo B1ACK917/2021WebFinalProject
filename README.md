@@ -1,15 +1,15 @@
 # 2021WebFinalProject
 <p align="right">2021 专业技术实践 期末大作业</p>
-
 ## Todo
 
 - 完成组队表
 - 完成选题报告
+- 开工啦
 - ...
 
 ## Finished
 
-- None
+- template.html: 主要的框架（还有待完善，周五晚可用）
 
 ## 大作业简要说明
 

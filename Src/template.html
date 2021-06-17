@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图床</title>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="css/template.css" />
+    <script>
+        function Search(){
+            var item = document.getElementById('item');
+            var xmlhttp = new XMLHttpRequest(); // 创建http请求
+            xmlhttp.onreadystatechange = function () { // 当http请求的状态变化时执行
+                if (xmlhttp.readyState == 4) { // 4-已收到http响应数据
+                    if (xmlhttp.status >= 200 && xmlhttp.status < 300 || xmlhttp.status == 304) { // 200~299-OK 304-unmodified
+                        //do something to show the image
+                    } else {
+                        alert("error");
+                    }
+                };
+            };
+            // 打开http请求
+            xmlhttp.open("get", "get.jsp?id="+item.value, true);
+            xmlhttp.send(null); //发送http请求。 get只能用null作为参数
+        }
+    </script>
+</head>
+<body>
+    <div id="header">
+        <div class="headPart explore"><a href="#"><i class="fa fa-bars" aria-hidden="true"></i> 探索</a></div>
+        <div class="headPart random"><a href="#"><i class="fa fa-random" aria-hidden="true"></i> 随机</a></div>
+        <div class="headPart search"><a><i class="fa fa-search" aria-hidden="true" onclick="Search()"></i> 搜索</a> <input id="item" type="text" size="24" value="" /></div>
+        
+
+        <div class="headPart upload"><a href="#"><i class="fa fa-cloud-upload" aria-hidden="true"></i> 上传</a></div>
+        <div class="headPart login"><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i> 登录</a></div>
+    </div>
+    <div id="main">
+        
+        
+        
+        
+        
+    </div>
+</body>
+</html>
