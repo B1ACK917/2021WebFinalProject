@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图床-登录</title>
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+    <style type="text/css">
+        #welcome_image{
+            position: absolute;
+            right: 80px;
+            top: 150px;
+        }
+        #user_info{
+            width: 300px;
+            margin: 20px auto;
+            position: relative;
+            font-weight: bold;
+            color: brown;
+        }
+
+        #user_name_div{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        #user_password_div{
+            position: absolute;
+            top: 40px;
+            left: 20px;
+        }
+
+        #welcome_info{
+            position: absolute;
+            font-size: 5em;
+            top: 70px;
+            left: 280px;
+        }
+
+        #wrong_info{
+            position: absolute;
+            top: 10px;
+            left: 180px;
+            color: red;
+            display: none;
+        }
+    </style>
+    <script>
+        function login(){
+            var name = document.getElementById('user_name');
+            var password = document.getElementById('user_password');
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+                    if (xmlhttp.status >= 200 && xmlhttp.status < 300 || xmlhttp.status >= 304) {
+                        var index1 = xmlhttp.responseText.indexOf("登录成功");
+                        if(index1 != -1)
+                        {
+                            window.location.href="home.html";
+                        }
+                        else
+                        {
+                            var info = document.getElementById('wrong_info');
+                            info.innerHTML = "用户名或密码错误！";
+                            info.style.display = "block";
+                        }
+                    } else {
+                        var info = document.getElementById('wrong_info');
+                        info.innerHTML = "网络错误，请检查后重试！";
+                        info.style.display = "block";
+                    }
+                };
+            };
+            
+            if(name.value=="" || password.value=="") //判断输入是否为空
+            {
+                var info = document.getElementById('wrong_info');
+                info.innerHTML = "输入内容不能空！";
+                info.style.display = "block";
+            }
+            else
+            {
+                var param = "user_name=" + name.value + "&p6=" + password.value;//汉字需要编码
+                xmlhttp.open("post", "jsp/login.jsp", true);
+                xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xmlhttp.send(param); // 没有参数就用null。
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="welcome_info">欢迎使用图床网站</div>
+    <div id="main">
+        <br>
+        <div id="user_info">
+            <div id="user_name_div">用户名：<input id="user_name" name="user_name" type="text" size="20" value="" /></div>
+            <div id="user_password_div">密码：<input id="user_password" name="user_password" type="password" size="20" value="" /></div>
+        </div>
+        <div id="upLoad" onclick="login()"><span>登录</span></div> 
+        <div id="wrong_info">输入内容不能空！</div> 
+    </div>
+    <div id="welcome_image">
+        <img src="images/首页少女.png" height="500px">
+    </div>
+</body>
+</html>

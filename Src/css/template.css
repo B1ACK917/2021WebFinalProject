@@ -2,9 +2,13 @@ html {
     font-family: 宋体;
     font-size: 20px;
 }
-h1 {
-    font-size: 36px;
+body{
+    background-image: url("../images/background1.jpg");
+    background-size: cover;
+    min-width: 300px;
 }
+
+
 #header {
     position: fixed;
     top: 0;
@@ -17,12 +21,7 @@ h1 {
 .headPart{
     display: inline-block;
 }
-#header img{
-    position: absolute;
-    left: 0px;
-    margin: 5px 0;
-    height: 40px;
-}
+
 #header a{
     color: blue;
     text-decoration: none;
@@ -47,18 +46,33 @@ h1 {
     top: 15px;
     right: 110px;
 }
-.login{
+.logout{
     position: absolute;
     top: 15px;
     right: 20px;
 }
-body{
-    background-image: url("../images/background1.jpg");
-    background-size: cover;
-}
+
 .search_form{
     display: inline-block;
     position: absolute;
     top: 15px;
     left: 210px;
 }
+
+#main{
+    margin: 70px auto;
+    margin-bottom: 20px;
+    width: 80%;
+    height: 550px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+}
+
+.user{
+    position: absolute;
+    top: 15px;
+    left: 600px;
+    color: blue;
+}
+
+
