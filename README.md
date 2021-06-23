@@ -1,11 +1,18 @@
 # 2021WebFinalProject
 <p align="right">2021 专业技术实践 期末大作业</p>
+## Update
+
+- 2021/6/23：
+  - 重构目录，修改index.html为首页。
+  - 修改index.html的样式。
+  - 修正了背景图片在某些情况下会Repeat的Bug。
+
 ## Todo
 
 - 完成组队表
 - 完成选题报告
 - 开工啦
-- ...
+- 
 
 ## Finished
 
