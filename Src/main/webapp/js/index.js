@@ -38,22 +38,20 @@ function hideLoginBox() {
   let body = document.querySelector('body')
   let main = document.createElement('div')
   main.innerHTML =
-    '<div id="main">\
-    <h1 style="text-align: center; color: white; height: 80px; ">上传与分享您的图片</h1>\
+    '<h1 style="text-align: center; color: white; height: 80px; ">上传与分享您的图片</h1>\
     <h3 style="text-align: center; color: white; height: 80px;">\
       任意拖放图片到这里, 即开始上传你的图片. <br>\
       或者点击下面的图标以开始批量上传你的图片.\
     </h3>\
-    <form action="./upload" method="post" style="display: none;" id="fileUploadForm">\
-      <input type="file" name="images" id="fileInput" onchange="postFile()">\
+    <form action="./upload" method="post" style="display: none;" id="fileUploadForm"  enctype="multipart/form-data">\
+      <input type="file" name="images" id="fileInput" onchange="postFile()" accept="image/*">\
     </form>\
     <div class="upload" id="uploadBtn" onclick="selectFile()">\
       <a href="#">\
         <i class="fa fa-cloud-upload" aria-hidden="true"></i>\
         开始上传\
       </a>\
-    </div>\
-  </div>'
+    </div>'
   main.id = 'main'
   body.appendChild(main)
   moveElementToCenter('main')
