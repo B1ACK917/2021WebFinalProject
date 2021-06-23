@@ -53,7 +53,7 @@ body {
 }
 
 .search form input[type='text'] {
-  width: 130px;
+  width: 60px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 12px;
