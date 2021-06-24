@@ -28,22 +28,22 @@ public class LoginServlet extends HttpServlet {
 		if ("admin".equals(username) && "admin".equals(password)) {
 			session.setAttribute("userId", 1);
 			request.setAttribute("message", "登录成功!");
-			request.setAttribute("url", "./index.html");
-			getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
+			request.setAttribute("url", "./index.jsp");
+			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 
 		if ("user1".equals(username) && "user1".equals(password)) {
 			session.setAttribute("userId", 2);
 			request.setAttribute("message", "登录成功!");
-			request.setAttribute("url", "./index.html");
-			getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
+			request.setAttribute("url", "./index.jsp");
+			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 
 		if ("user2".equals(username) && "user2".equals(password)) {
 			session.setAttribute("userId", 3);
 			request.setAttribute("message", "登录成功!");
-			request.setAttribute("url", "./index.html");
-			getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
+			request.setAttribute("url", "./index.jsp");
+			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 	}
 }
