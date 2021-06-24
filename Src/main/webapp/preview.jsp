@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Object obj = session.getAttribute("userId");
+    Object obj = session.getAttribute("username");
     String exploreOnClick = "showLoginBox()";
     String randomOnClick = "showLoginBox()";
     String uploadOnClick = "showLoginBox()";
@@ -31,6 +31,16 @@
     picPosition = picUrl;
     picDeleteUrl = picUrl;
 
+    // True Usage
+    picUrl = request.getAttribute("url").toString();
+    String[] temp = picUrl.replaceAll("\\\\", "/").split("/");
+    if (temp.length > 1) {
+        picName = temp[temp.length - 1];
+    } else {
+        picName = "error.jpg";
+    }
+    picPosition = picUrl;
+    picDeleteUrl = picUrl.replaceAll("origin/1", "delete");
 %>
 
 <%--TODO:
@@ -43,11 +53,12 @@
 <head>
     <meta charset="utf-8">
     <title>图床</title>
-    <link rel="stylesheet" type="text/css" href="../css/font-awesome.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/preview.css"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="css/preview.css"/>
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.css"/>
-    <script src="../js/utils.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/index.js"></script>
     <script>
         window.onload = () => {
             moveElementToCenter("imgPreview")
@@ -89,7 +100,7 @@
 </div>
 
 <fieldset style="margin-top: 10px; position: fixed" id="imgPreview">
-    <legend><img src="../icons/tabler-icon-brand-unsplash.png" alt=""
+    <legend><img src="icons/tabler-icon-brand-unsplash.png" alt=""
                  style="vertical-align:middle; line-height:16px; height:16px; padding-right:5px;"><%=picName%>
     </legend>
     <table style="width:100%;">
