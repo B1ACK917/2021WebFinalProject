@@ -99,11 +99,11 @@
         </div>
         <div class="login-input-box">
             <i class="fa fa-user" aria-hidden="true" style="width: 20px;"></i>
-            <input type="text" placeholder="账户" name="user">
+            <input type="text" placeholder="账户" name="user" id="userInput">
         </div>
         <div class="login-input-box">
             <i class="fa fa-lock" aria-hidden="true" style="width: 20px;"></i>
-            <input type="password" placeholder="密码" name="password">
+            <input type="password" placeholder="密码" name="password" id="pwdInput">
         </div>
     </form>
     <div class="login-button-box">

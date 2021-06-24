@@ -44,24 +44,35 @@ function showLoginBox() {
         moveElementToCenter('loginFrame')
     } else {
         let loginFrame = document.getElementById('loginFrame')
-        if(document.getElementById('loginFrame')!=null)
-            animateCSS('loginFrame','bounce')
+        if (document.getElementById('loginFrame') != null)
+            animateCSS('loginFrame', 'heartBeat')
     }
 }
 
 function hideLoginBox() {
-    if (removeLoginFrame()) {
-        let body = document.querySelector('body')
-        let main = document.createElement('div')
-        main.innerHTML = mainFrameCache
-        main.id = 'main'
-        body.appendChild(main)
-        moveElementToCenter('main')
+    if (document.getElementById('loginFrame')) {
+        animateCSS('loginFrame', 'zoomOutLeft').then(message => {
+            if (removeLoginFrame()) {
+                let body = document.querySelector('body')
+                let main = document.createElement('div')
+                main.innerHTML = mainFrameCache
+                main.id = 'main'
+                body.appendChild(main)
+                moveElementToCenter('main')
+            }
+        })
     }
+
 }
 
 function postAccount() {
     let args = document.getElementById('loginArgs')
+    let userName = document.getElementById('userInput').value
+    let password = document.getElementById('pwdInput').value
+    if (userName === '' || password === '') {
+        animateCSS('loginFrame', 'shakeX')
+        return
+    }
     args.submit()
 }
 
@@ -76,7 +87,6 @@ function postFile() {
     let suffix = filename.substr(index + 1);
     if (suffix in {jpg: true, jpeg: true, png: true})
         document.getElementById('fileUploadForm').submit()
-    else return
 }
 
 function postLogout() {
