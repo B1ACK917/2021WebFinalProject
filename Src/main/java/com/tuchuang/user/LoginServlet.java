@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -24,7 +23,6 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		System.out.println(password);
 
-		// 如果用户和密码都等于admin,则登录成功
 		boolean loginSuccess = false;
 		
 		if ("admin".equals(username) && "admin".equals(password)) {

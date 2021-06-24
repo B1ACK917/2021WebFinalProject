@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
@@ -70,6 +74,11 @@ public class UploadServlet extends HttpServlet {
 		return getServletContext().getRealPath("/") + File.separator + path;
 	}
 
+	public static String concatenate(URL baseUrl, String relativePath) throws URISyntaxException, MalformedURLException {
+		URL url = new URL(baseUrl, relativePath);
+		return url.toString();
+	}
+
 	private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Connection c = null;
 		String connectString = "jdbc:mysql://web.malloc.fun:3306/web_malloc_fun" + "?autoReconnect=true&useUnicode=true"
@@ -100,14 +109,10 @@ public class UploadServlet extends HttpServlet {
 
 			stmt = c.createStatement();
 			String sql = "CREATE TABLE IF NOT EXISTS IMAGE (\n"
-					+ "    ID         INTEGER   PRIMARY KEY AUTO_INCREMENT\n" 
-					+ "                         NOT NULL,\n"
-					+ "    SHA1       CHAR (40) NOT NULL,\n" 
-					+ "    Token      CHAR (40) NOT NULL,\n"
-					+ "    Path       TEXT   NOT NULL,\n" 
-					+ "    UserId     INTEGER   NOT NULL,\n"
-					+ "    CreateTime DATE      NOT NULL\n" 
-					+ ");";
+					+ "    ID         INTEGER   PRIMARY KEY AUTO_INCREMENT\n" + "                         NOT NULL,\n"
+					+ "    SHA1       CHAR (40) NOT NULL,\n" + "    Token      CHAR (40) NOT NULL,\n"
+					+ "    Path       TEXT   NOT NULL,\n" + "    UserId     INTEGER   NOT NULL,\n"
+					+ "    CreateTime DATE      NOT NULL\n" + ");";
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.close();
@@ -116,58 +121,58 @@ public class UploadServlet extends HttpServlet {
 		}
 	}
 
-	public static String getRandomString(int length){
-	    String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	    Random random=new Random();
-	    StringBuffer sb=new StringBuffer();
-	    for(int i=0;i<length;i++){
-	      int number=random.nextInt(62);
-	      sb.append(str.charAt(number));
-	    }
-	    return sb.toString();
+	public static String getRandomString(int length) {
+		String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < length; i++) {
+			int number = random.nextInt(62);
+			sb.append(str.charAt(number));
+		}
+		return sb.toString();
 	}
-	
-	private boolean insertIntoDatabase(int userId, String sha1, String path) {
+
+	private String insertIntoDatabase(int userId, String sha1, String path) {
 		Connection c = null;
 		Statement stmt = null;
-		
+
 		try {
 			c = getConnection();
 			stmt = c.createStatement();
-			String querySql = "SELECT Id FROM IMAGE WHERE userId = " + userId + " and sha1 = '" + sha1 + "';";
-			System.out.println(querySql);
-			ResultSet rs = stmt.executeQuery(querySql);
-			boolean isNotEmpty = rs.next();
-			System.out.println(isNotEmpty);
-			if(isNotEmpty) return false;
-			
+//			String querySql = "SELECT Token FROM IMAGE WHERE userId = " + userId + " and sha1 = '" + sha1 + "';";
+//			System.out.println(querySql);
+//			ResultSet rs = stmt.executeQuery(querySql);
+//			boolean isNotEmpty = rs.next();
+//			System.out.println(isNotEmpty);
+//			if(isNotEmpty) return rs.getString("Token");
+
 			String token = getRandomString(40);
 			System.out.println(token);
-			String insertSql = "INSERT INTO IMAGE VALUES(NULL, '" + sha1 + "', '" + token + "', '" + path + "', " + userId + ", " + "now() )";
+			String insertSql = "INSERT INTO IMAGE VALUES(NULL, '" + sha1 + "', '" + token + "', '" + path + "', "
+					+ userId + ", " + "now() )";
 			// System.out.println(insertSql);
 			int res = stmt.executeUpdate(insertSql);
-			return res != 0;
+			return res != 0 ? token : null;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
-		}  finally {
+			return null;
+		} finally {
 			// 关闭资源
 			try {
 				if (stmt != null)
 					stmt.close();
 			} catch (SQLException se2) {
-			} // 什么都不做
+			}
 			try {
 				if (c != null)
 					c.close();
 			} catch (SQLException se) {
-				se.printStackTrace();
 			}
 		}
 	}
 
-	private String insertImage(int userId, FileItem item) throws Exception {
+	private void insertImage(int userId, FileItem item, HttpServletRequest request) throws Exception {
 		InputStream input = item.getInputStream();
 		ImageIO.read(input);
 		input.close();
@@ -179,16 +184,20 @@ public class UploadServlet extends HttpServlet {
 		String extension = FilenameUtils.getExtension(item.getName());
 		String uploadPath = ORIGIN_DIRECTORY + "/" + String.valueOf(userId);
 		createIfNotExists(getRealPath(uploadPath));
-		String filePath = uploadPath + "/" + sha1 + "." + extension;
-		if (insertIntoDatabase(userId, sha1, filePath)) {
+		String filePath = uploadPath + "/" + getRandomString(16) + "." + extension;
+		String token = insertIntoDatabase(userId, sha1, filePath);
+		if (token != null) {
 			File storeFile = new File(getRealPath(filePath));
-			if(storeFile.exists()) storeFile.delete();
+			if (storeFile.exists())
+				storeFile.delete();
 			// 在控制台输出文件的上传路径
 			System.out.println(storeFile.getAbsolutePath());
 			// 保存文件到硬盘
 			item.write(storeFile);
+			URL baseUrl = new URL(request.getRequestURL().toString());
+			request.setAttribute("url", concatenate(baseUrl, "./" + filePath));
+			request.setAttribute("deleteUrl", concatenate(baseUrl, "./delete?token=" + token));;
 		}
-		return "./" + filePath;
 	}
 
 	/**
@@ -242,9 +251,8 @@ public class UploadServlet extends HttpServlet {
 				for (FileItem item : formItems) {
 					if (!item.isFormField()) {
 						try {
-							String url = insertImage(userId, item);
+							insertImage(userId, item, request);
 							request.setAttribute("message", "文件上传成功!");
-							request.setAttribute("url", url);
 						} catch (Exception e) {
 							request.setAttribute("message", "错误信息: " + e.getMessage());
 						}
@@ -255,6 +263,6 @@ public class UploadServlet extends HttpServlet {
 			request.setAttribute("message", "错误信息: " + ex.getMessage());
 		}
 		// 跳转到 message.jsp
-		getServletContext().getRequestDispatcher("/message.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/preview.jsp").forward(request, response);
 	}
 }

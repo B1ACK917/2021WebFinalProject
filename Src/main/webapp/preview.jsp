@@ -40,7 +40,7 @@
         picName = "error.jpg";
     }
     picPosition = picUrl;
-    picDeleteUrl = picUrl.replaceAll("origin/1", "delete");
+    picDeleteUrl = request.getAttribute("deleteUrl").toString();
 %>
 
 <%--TODO:
