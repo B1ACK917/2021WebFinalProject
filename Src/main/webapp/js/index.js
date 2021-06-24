@@ -17,15 +17,35 @@ function removeMainFrame() {
     return true
 }
 
+const animateCSS = (elementID, animation, prefix = 'animate__') =>
+    new Promise((resolve, reject) => {
+        const animationName = `${prefix}${animation}`;
+        const node = document.getElementById(elementID);
+
+        node.classList.add(`${prefix}animated`, animationName);
+
+        function handleAnimationEnd(event) {
+            event.stopPropagation();
+            node.classList.remove(`${prefix}animated`, animationName);
+            resolve('Animation ended');
+        }
+
+        node.addEventListener('animationend', handleAnimationEnd, {once: true});
+    });
+
 function showLoginBox() {
     if (removeMainFrame()) {
         let body = document.querySelector('body')
         let loginFrame = document.createElement('div')
         loginFrame.innerHTML = loginFrameCache
         loginFrame.id = 'loginFrame'
-        loginFrame.className = 'animate__animated animate__backInRight'
         body.appendChild(loginFrame)
+        animateCSS('loginFrame', 'backInRight')
         moveElementToCenter('loginFrame')
+    } else {
+        let loginFrame = document.getElementById('loginFrame')
+        if(document.getElementById('loginFrame')!=null)
+            animateCSS('loginFrame','bounce')
     }
 }
 

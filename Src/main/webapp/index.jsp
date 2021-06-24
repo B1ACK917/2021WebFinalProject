@@ -21,6 +21,7 @@
 %>
 <html>
 
+
 <head>
     <meta charset="utf-8">
     <title>图床</title>
@@ -68,7 +69,8 @@
     </div>
     <form action="./logout" method="post" style="display: none;" id="logoutForm"></form>
     <div class="headPart login" onclick="<%=logOnClick%>"><a><i class="fa fa-sign-in"
-                                                               aria-hidden="true"></i> <%=logStatus%></a>
+                                                                aria-hidden="true"></i> <%=logStatus%>
+    </a>
     </div>
 </div>
 
