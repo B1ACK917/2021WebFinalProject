@@ -44,9 +44,7 @@ public class LoginServlet extends HttpServlet {
 		
 		if(loginSuccess) {
 			session.setAttribute("username", username);
-			request.setAttribute("message", "µÇÂ¼³É¹¦!");
-			request.setAttribute("url", "./index.jsp");
-			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+			response.sendRedirect("./index.jsp");
 		}
 	}
 }
