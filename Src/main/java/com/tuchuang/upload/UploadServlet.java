@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -85,7 +87,7 @@ public class UploadServlet extends HttpServlet {
 			uploadDir.mkdir();
 		}
 	}
-	
+
 	public void init() throws ServletException {
 		createIfNotExists(getRealPath(ORIGIN_DIRECTORY));
 		createIfNotExists(getRealPath(SAMPLE_DIRECTORY));
@@ -98,9 +100,14 @@ public class UploadServlet extends HttpServlet {
 
 			stmt = c.createStatement();
 			String sql = "CREATE TABLE IF NOT EXISTS IMAGE (\n"
-					+ "    ID         INTEGER   PRIMARY KEY AUTO_INCREMENT\n" + "                         NOT NULL,\n"
-					+ "    SHA1       CHAR (40) NOT NULL,\n" + "    Token      CHAR (40) NOT NULL,\n"
-					+ "    Path       CHAR      NOT NULL,\n" + "    CreateTime DATE      NOT NULL\n" + ");";
+					+ "    ID         INTEGER   PRIMARY KEY AUTO_INCREMENT\n" 
+					+ "                         NOT NULL,\n"
+					+ "    SHA1       CHAR (40) NOT NULL,\n" 
+					+ "    Token      CHAR (40) NOT NULL,\n"
+					+ "    Path       TEXT   NOT NULL,\n" 
+					+ "    UserId     INTEGER   NOT NULL,\n"
+					+ "    CreateTime DATE      NOT NULL\n" 
+					+ ");";
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.close();
@@ -109,19 +116,58 @@ public class UploadServlet extends HttpServlet {
 		}
 	}
 
-	private boolean insertIntoDatabase() {
+	public static String getRandomString(int length){
+	    String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	    Random random=new Random();
+	    StringBuffer sb=new StringBuffer();
+	    for(int i=0;i<length;i++){
+	      int number=random.nextInt(62);
+	      sb.append(str.charAt(number));
+	    }
+	    return sb.toString();
+	}
+	
+	private boolean insertIntoDatabase(int userId, String sha1, String path) {
+		Connection c = null;
+		Statement stmt = null;
+		
 		try {
-			Connection c = getConnection();
-
-			return true;
+			c = getConnection();
+			stmt = c.createStatement();
+			String querySql = "SELECT Id FROM IMAGE WHERE userId = " + userId + " and sha1 = '" + sha1 + "';";
+			System.out.println(querySql);
+			ResultSet rs = stmt.executeQuery(querySql);
+			boolean isNotEmpty = rs.next();
+			System.out.println(isNotEmpty);
+			if(isNotEmpty) return false;
+			
+			String token = getRandomString(40);
+			System.out.println(token);
+			String insertSql = "INSERT INTO IMAGE VALUES(NULL, '" + sha1 + "', '" + token + "', '" + path + "', " + userId + ", " + "now() )";
+			// System.out.println(insertSql);
+			int res = stmt.executeUpdate(insertSql);
+			return res != 0;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
+		}  finally {
+			// 关闭资源
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+			} // 什么都不做
+			try {
+				if (c != null)
+					c.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
 		}
 	}
 
-	private String insertImage(FileItem item) throws Exception {
+	private String insertImage(int userId, FileItem item) throws Exception {
 		InputStream input = item.getInputStream();
 		ImageIO.read(input);
 		String sha1 = getSha1(input);
@@ -129,9 +175,11 @@ public class UploadServlet extends HttpServlet {
 		System.out.println(sha1);
 		// It's an image (only BMP, GIF, JPG and PNG are recognized).
 		String extension = FilenameUtils.getExtension(item.getName());
-		String filePath = ORIGIN_DIRECTORY + "/" + sha1 + "." + extension;
+		String uploadPath = ORIGIN_DIRECTORY + "/" + String.valueOf(userId);
+		createIfNotExists(getRealPath(uploadPath));
+		String filePath = uploadPath + "/" + sha1 + "." + extension;
 		File storeFile = new File(getRealPath(filePath));
-		if (!storeFile.exists()) {
+		if (insertIntoDatabase(userId, sha1, filePath)) {
 			// 在控制台输出文件的上传路径
 			System.out.println(storeFile.getAbsolutePath());
 			// 保存文件到硬盘
@@ -145,6 +193,12 @@ public class UploadServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Object userIdString = session.getAttribute("userId");
+		if (userIdString == null)
+			return;
+		int userId = (int) userIdString;
+
 		// 检测是否为多媒体上传
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			// 如果不是则停止
@@ -185,7 +239,7 @@ public class UploadServlet extends HttpServlet {
 				for (FileItem item : formItems) {
 					if (!item.isFormField()) {
 						try {
-							String url = insertImage(item);
+							String url = insertImage(userId, item);
 							request.setAttribute("message", "文件上传成功!");
 							request.setAttribute("url", url);
 						} catch (Exception e) {
