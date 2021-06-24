@@ -170,6 +170,8 @@ public class UploadServlet extends HttpServlet {
 	private String insertImage(int userId, FileItem item) throws Exception {
 		InputStream input = item.getInputStream();
 		ImageIO.read(input);
+		input.close();
+		input = item.getInputStream();
 		String sha1 = getSha1(input);
 		input.close();
 		System.out.println(sha1);
@@ -178,8 +180,9 @@ public class UploadServlet extends HttpServlet {
 		String uploadPath = ORIGIN_DIRECTORY + "/" + String.valueOf(userId);
 		createIfNotExists(getRealPath(uploadPath));
 		String filePath = uploadPath + "/" + sha1 + "." + extension;
-		File storeFile = new File(getRealPath(filePath));
 		if (insertIntoDatabase(userId, sha1, filePath)) {
+			File storeFile = new File(getRealPath(filePath));
+			if(storeFile.exists()) storeFile.delete();
 			// 在控制台输出文件的上传路径
 			System.out.println(storeFile.getAbsolutePath());
 			// 保存文件到硬盘
