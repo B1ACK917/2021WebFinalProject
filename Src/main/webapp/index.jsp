@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Object obj = session.getAttribute("userId");
+    Object obj = session.getAttribute("username");
     String exploreOnClick = "showLoginBox()";
     String randomOnClick = "showLoginBox()";
     String uploadOnClick = "showLoginBox()";
