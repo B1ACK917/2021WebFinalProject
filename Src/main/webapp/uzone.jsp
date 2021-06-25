@@ -21,12 +21,21 @@
 %>
 <%
     // Test Usage
+
     String userName = "Test";
     String userZoneUrl = "http://localhost:8080/imgDepot/uzone.jsp";
-    String userImageNum = "11";
-    String userAlbumNum = "2";
+    Number userImageNum = 11;
+    Number userAlbumNum = 2;
+    Number curPage;
     String[] tableImgs = {"testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg",
             "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg"};
+    Object pageObj = request.getParameter("page");
+    if (pageObj == null) {
+        curPage = 0;
+    } else {
+        System.out.println(pageObj);
+        curPage = Integer.parseInt(pageObj.toString());
+    }
 
     // True Usage
 //    userName = request.getAttribute("username").toString();
@@ -52,6 +61,25 @@
         }
         window.onresize = () => {
             moveElementToCenter("contentWrapper")
+        }
+
+        function prevPage() {
+            let curPage = parseInt("<%=curPage%>")
+            if (curPage > 0) {
+                window.location.href = "uzone.jsp?page=" + curPage - 1
+            } else {
+                window.location.href = "uzone.jsp?page=0"
+            }
+        }
+
+        function nextPage() {
+            let curPage = parseInt("<%=curPage%>")
+            let maxPage = parseInt("<%=userImageNum%>")//8
+            if (curPage >= maxPage) {
+                window.location.href = "uzone.jsp?page=" + maxPage
+            } else {
+                window.location.href = "uzone.jsp?page=" + curPage + 1
+            }
         }
     </script>
 </head>
@@ -144,15 +172,15 @@
                 <table id="imgTable" class="imgTable">
                     <tr>
                         <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[1]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[2]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[3]%>" class="tableImg"></td>
                     </tr>
                     <tr>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[4]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[5]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[6]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[7]%>" class="tableImg"></td>
                     </tr>
                 </table>
             </div>
@@ -160,12 +188,12 @@
 
         <div id="pageBtnDiv">
             <div id="btnLine" class="btnLine">
-                <div class="leftBtn">
-                    <div class="btn" onclick="<%=page%>">
+                <div id="leftBtn" onclick="prevPage()">
+                    <div class="btn">
                         上一页
                     </div>
                 </div>
-                <div class="rightBtn">
+                <div id="rightBtn" onclick="nextPage()">
                     <div class="btn">
                         下一页
                     </div>

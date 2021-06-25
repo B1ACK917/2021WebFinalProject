@@ -188,11 +188,11 @@ a.userMetaLink i, a.userMetaLink:hover i {
     height: 80px;
 }
 
-.leftBtn {
+#leftBtn {
     float: left;
 }
 
-.rightBtn {
+#rightBtn {
     float: right;
 }
 
