@@ -54,7 +54,7 @@
             探索</a>
     </div>
     <div class="headPart random" onclick="<%=randomOnClick%>">
-        <a>
+        <a href="./random">
             <i class="fa fa-random"
                aria-hidden="true"></i>
             随机</a>
