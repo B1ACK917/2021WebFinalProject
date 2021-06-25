@@ -66,7 +66,7 @@
         function prevPage() {
             let curPage = parseInt("<%=curPage%>")
             if (curPage > 0) {
-                window.location.href = "uzone.jsp?page=" + curPage - 1
+                window.location.href = "uzone.jsp?page=" + (curPage - 1)
             } else {
                 window.location.href = "uzone.jsp?page=0"
             }
@@ -74,11 +74,11 @@
 
         function nextPage() {
             let curPage = parseInt("<%=curPage%>")
-            let maxPage = parseInt("<%=userImageNum%>")//8
+            let maxPage = Math.ceil(parseInt("<%=userImageNum%>") / 8)
             if (curPage >= maxPage) {
                 window.location.href = "uzone.jsp?page=" + maxPage
             } else {
-                window.location.href = "uzone.jsp?page=" + curPage + 1
+                window.location.href = "uzone.jsp?page=" + (curPage + 1)
             }
         }
     </script>
