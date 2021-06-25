@@ -1,23 +1,63 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page import="java.sql.*"%>
+<%@ page import = "java.util.*"%>
+<%@ page import = "java.lang.*"%>
+<%@ page import = "java.net.URL"%>
 <%
-    Object obj = session.getAttribute("username");
-    String exploreOnClick = "showLoginBox()";
-    String randomOnClick = "showLoginBox()";
-    String uploadOnClick = "showLoginBox()";
-    String logOnClick = "showLoginBox()";
-    String curUser = "none", userDisplay = "none", logStatus = "登入";
-    if (obj == null) {
-        System.out.println("未登录");
-    } else {
-        System.out.println("已登录");
-        curUser = obj.toString();
-        userDisplay = "block";
-        exploreOnClick = "";
-        randomOnClick = "";
-        uploadOnClick = "selectFile()";
-        logStatus = "登出";
-        logOnClick = "postLogout()";
-    }
+Object userIdObj = session.getAttribute("userId");
+if(userIdObj == null) response.sendRedirect("./index.jsp");
+int userId = (int) userIdObj;
+Object authorityObj = session.getAttribute("authority");
+int	authority = (int) authorityObj;
+
+Object obj = session.getAttribute("username");
+String exploreOnClick = "showLoginBox()";
+String randomOnClick = "showLoginBox()";
+String uploadOnClick = "showLoginBox()";
+String logOnClick = "showLoginBox()";
+String curUser = "none", userDisplay = "none", logStatus = "登入";
+if (obj == null) {
+	System.out.println("未登录");
+} else {
+	System.out.println("已登录");
+	curUser = obj.toString();
+	userDisplay = "block";
+	exploreOnClick = "";
+	randomOnClick = "";
+	uploadOnClick = "selectFile()";
+	logStatus = "登出";
+	logOnClick = "postLogout()";
+}
+
+
+int pageSize = 8;
+int orderby = 0;
+Object orderbyObj = request.getAttribute("orderby");
+if (orderbyObj != null)
+	orderby = (int) orderbyObj;
+
+Connection c = null;
+Statement stmt = null;
+
+String connectString = "jdbc:mysql://web.malloc.fun:3306/web_malloc_fun" + "?autoReconnect=true&useUnicode=true"
+		+ "&characterEncoding=UTF-8";
+String user = "web_malloc_fun";
+String pwd = "y7tM7hftsFSyMC2y";
+Class.forName("com.mysql.jdbc.Driver");
+c = DriverManager.getConnection(connectString, user, pwd);
+stmt = c.createStatement();
+String sql = "SELECT * FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + ";";
+ResultSet rs = stmt.executeQuery(sql);
+String[] tableImgs = new String[8];
+int cnt = 0;
+URL baseUrl = new URL(request.getRequestURL().toString());
+for(int i = 0; i < 8; i++){
+	if(rs.next()){
+		String path = rs.getString("Path");
+		tableImgs[i] = new URL(baseUrl, path).toString();
+	}
+}
+rs.close();
 %>
 <%
     // Test Usage
@@ -27,8 +67,6 @@
     Number userImageNum = 11;
     Number userAlbumNum = 2;
     Number curPage;
-    String[] tableImgs = {"testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg",
-            "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg", ""};
     Object pageObj = request.getParameter("page");
     if (pageObj == null) {
         curPage = 0;
@@ -177,15 +215,15 @@
             <div id="contentImgs">
                 <table id="imgTable" class="imgTable">
                     <tr>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[1]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[2]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[3]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[0]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
+                        <td><img src="<%=tableImgs[1]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
+                        <td><img src="<%=tableImgs[2]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
+                        <td><img src="<%=tableImgs[3]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
                     </tr>
                     <tr>
-                        <td><img src="<%=tableImgs[4]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[5]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[6]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[4]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
+                        <td><img src="<%=tableImgs[5]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
+                        <td><img src="<%=tableImgs[6]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
                         <td><img src="<%=tableImgs[7]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
                     </tr>
                 </table>
