@@ -33,6 +33,7 @@
 
     // True Usage
     picUrl = request.getAttribute("url").toString();
+    Object deleteUrl = request.getAttribute("deleteUrl");
     String[] temp = picUrl.replaceAll("\\\\", "/").split("/");
     if (temp.length > 1) {
         picName = temp[temp.length - 1];
@@ -40,7 +41,8 @@
         picName = "error.jpg";
     }
     picPosition = picUrl;
-    picDeleteUrl = request.getAttribute("deleteUrl").toString();
+    if(deleteUrl != null)
+    	picDeleteUrl = deleteUrl.toString();
 %>
 
 <%--TODO:
