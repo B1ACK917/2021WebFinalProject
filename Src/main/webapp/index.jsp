@@ -37,9 +37,7 @@
             moveElementToCenter("loginFrame")
             removeLoginFrame()
         }
-        var o=window.onresize;
         window.onresize = () => {
-        	o();
             moveElementToCenter("main");
             moveElementToCenter("loginFrame")
         }
@@ -119,9 +117,7 @@
 </div>
 </body>
 
-
-<script type="text/javascript" color="255,255,255" opacity='0.7' zIndex="-2" count="200" src="js/net.js"></script>
-
 <script>document.onclick = clickwave;</script>
+<script type="text/javascript" color="255,255,255" opacity='0.7' zIndex="-2" count="200" src="js/net.js"></script>
 
 </html>
