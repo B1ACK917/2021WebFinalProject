@@ -91,6 +91,7 @@ body {
   top: 15px;
   left: 47%;
   height: 50px;
+  z-index: 999;
 }
 
 .welcome {
