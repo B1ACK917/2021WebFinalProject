@@ -82,6 +82,17 @@ body {
   border: 1px solid #aaa;
 }
 
+.home {
+  margin: 0 auto;
+}
+
+.home img {
+  position: absolute;
+  top: 15px;
+  left: 47%;
+  height: 50px;
+}
+
 .welcome {
   position: absolute;
   top: 15px;
