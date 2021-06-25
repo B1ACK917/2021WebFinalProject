@@ -28,7 +28,7 @@
     Number userAlbumNum = 2;
     Number curPage;
     String[] tableImgs = {"testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg",
-            "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg"};
+            "testResource/1.jpg", "testResource/1.jpg", "testResource/1.jpg", ""};
     Object pageObj = request.getParameter("page");
     if (pageObj == null) {
         curPage = 0;
@@ -106,7 +106,7 @@
 
     <div class="headPart home" onclick="<%=randomOnClick%>">
         <a href="index.jsp">
-            <img src="icons/Home.png">
+            <img src="icons/Home-w.png">
         </a>
     </div>
 
@@ -186,7 +186,7 @@
                         <td><img src="<%=tableImgs[4]%>" class="tableImg"></td>
                         <td><img src="<%=tableImgs[5]%>" class="tableImg"></td>
                         <td><img src="<%=tableImgs[6]%>" class="tableImg"></td>
-                        <td><img src="<%=tableImgs[7]%>" class="tableImg"></td>
+                        <td><img src="<%=tableImgs[7]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
                     </tr>
                 </table>
             </div>

@@ -99,7 +99,7 @@
 
     <div class="headPart home" onclick="<%=randomOnClick%>">
         <a href="index.jsp">
-            <img src="icons/Home.png">
+            <img src="icons/Home-w.png">
         </a>
     </div>
 
