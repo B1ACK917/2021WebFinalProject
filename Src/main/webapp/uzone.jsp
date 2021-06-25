@@ -31,10 +31,17 @@ if (obj == null) {
 
 
 int pageSize = 8;
-int orderby = 0;
-Object orderbyObj = request.getAttribute("orderby");
-if (orderbyObj != null)
-	orderby = (int) orderbyObj;
+int curPage;
+Object pageObj = request.getParameter("page");
+if (pageObj == null) {
+    curPage = 0;
+} else {
+    System.out.println(pageObj);
+    curPage = Integer.parseInt(pageObj.toString());
+}
+
+int skip = curPage * pageSize;
+int userImageNum = 0;
 
 Connection c = null;
 Statement stmt = null;
@@ -46,8 +53,14 @@ String pwd = "y7tM7hftsFSyMC2y";
 Class.forName("com.mysql.jdbc.Driver");
 c = DriverManager.getConnection(connectString, user, pwd);
 stmt = c.createStatement();
-String sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + ";";
+String sql = "SELECT COUNT(*) FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + ";";
 ResultSet rs = stmt.executeQuery(sql);
+
+if(rs.next())
+	userImageNum = rs.getInt(1);
+
+sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + " ORDER BY CreateTime DESC" + " limit " + skip + " , " + pageSize + ";";
+rs = stmt.executeQuery(sql);
 String[] tableImgs = new String[8];
 String[] previewUrls = new String[8];
 int cnt = 0;
@@ -66,16 +79,8 @@ rs.close();
 
     String userName = "Test";
     String userZoneUrl = "http://localhost:8080/imgDepot/uzone.jsp";
-    Number userImageNum = 11;
+
     Number userAlbumNum = 2;
-    Number curPage;
-    Object pageObj = request.getParameter("page");
-    if (pageObj == null) {
-        curPage = 0;
-    } else {
-        System.out.println(pageObj);
-        curPage = Integer.parseInt(pageObj.toString());
-    }
 
     // True Usage
 //    userName = request.getAttribute("username").toString();
