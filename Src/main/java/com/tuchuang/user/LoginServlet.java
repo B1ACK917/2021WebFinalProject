@@ -48,23 +48,24 @@ public class LoginServlet extends HttpServlet {
 					+ "    ID         INTEGER   PRIMARY KEY AUTO_INCREMENT\n" 
 					+ "                         NOT NULL,\n"
 					+ "    Name       CHAR(64)  NOT NULL,\n"
-					+ "    Password   CHAR(64)  NOT NULL\n" 
+					+ "    Password   CHAR(64)  NOT NULL,\n" 
+					+ "    Authority  INTEGER   NOT NULL\n"
 					+ ");";
 			stmt.executeUpdate(sql);
 			
 			sql = "SELECT ID FROM USER WHERE Name='admin';";
 			rs  = stmt.executeQuery(sql);
-			sql = "INSERT INTO USER VALUES(NULL, 'admin', 'admin');";
+			sql = "INSERT INTO USER VALUES(NULL, 'admin', 'admin', 0);";
 			if(!rs.next()) stmt.executeUpdate(sql);
 
 			sql = "SELECT ID FROM USER WHERE Name='user1';";
 			rs  = stmt.executeQuery(sql);
-			sql = "INSERT INTO USER VALUES(NULL, 'user1', 'user1');";
+			sql = "INSERT INTO USER VALUES(NULL, 'user1', 'user1', 1);";
 			if(!rs.next()) stmt.executeUpdate(sql);
 
 			sql = "SELECT ID FROM USER WHERE Name='user2';";
 			rs  = stmt.executeQuery(sql);
-			sql = "INSERT INTO USER VALUES(NULL, 'user2', 'user2');";
+			sql = "INSERT INTO USER VALUES(NULL, 'user2', 'user2', 1);";
 			if(!rs.next()) stmt.executeUpdate(sql);
 			
 			stmt.close();
@@ -99,11 +100,12 @@ public class LoginServlet extends HttpServlet {
 		try {
 			c = getConnection();
 			stmt = c.createStatement();
-			sql = "SELECT ID FROM USER WHERE Name='" + username + "' and Password='" + password + "';";
+			sql = "SELECT ID, Authority FROM USER WHERE Name='" + username + "' and Password='" + password + "';";
 			rs  = stmt.executeQuery(sql);
 			if(rs.next()) {
 				System.out.println(rs.getInt("ID"));
 				session.setAttribute("userId", rs.getInt("ID"));
+				session.setAttribute("authority", rs.getInt("Authority"));
 				loginSuccess = true;
 			}
 		}
