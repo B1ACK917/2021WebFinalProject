@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.css"/>
     <script src="js/utils.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/click.js"></script>
     <script>
         window.onload = () => {
             moveElementToCenter("main");
@@ -44,6 +45,7 @@
 </head>
 
 <body>
+
 <div id="header">
     <div class="headPart explore" onclick="<%=exploreOnClick%>">
         <a>
@@ -114,5 +116,10 @@
     </div>
 </div>
 </body>
+
+
+<script type="text/javascript" color="255,255,255" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+<script>document.onclick = clickwave;</script>
 
 </html>

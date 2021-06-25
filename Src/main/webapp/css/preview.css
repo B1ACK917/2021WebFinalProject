@@ -9,6 +9,21 @@ fieldset {
     justify-content: center;
 }
 
+legend {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 7px;
+    border-radius: 10px;
+}
+
 .form-control {
     width: 350px;
+}
+
+.dlinput_header {
+	font-family:consolas;
+	color:rgb(255,255,255);
+}
+
+.lazy {
+	margin-right: 10px;
 }

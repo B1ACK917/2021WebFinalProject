@@ -2,3 +2,12 @@
 Src.zip
 Src/main/webapp/webapp.zip
 Src/main/webapp/WEB-INF/class
+Src/main/.classpath
+Src/main/.project
+Src/main/.settings/.jsdtscope
+Src/main/.settings/org.eclipse.jdt.core.prefs
+Src/main/.settings/org.eclipse.wst.common.component
+Src/main/.settings/org.eclipse.wst.common.project.facet.core.xml
+Src/main/.settings/org.eclipse.wst.jsdt.ui.superType.container
+Src/main/.settings/org.eclipse.wst.jsdt.ui.superType.name
+Src/main/src/main/webapp/META-INF/MANIFEST.MF

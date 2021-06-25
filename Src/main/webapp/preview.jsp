@@ -59,6 +59,7 @@
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.css"/>
     <script src="js/utils.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/click.js"></script>
     <script>
         window.onload = () => {
             moveElementToCenter("imgPreview")
@@ -166,5 +167,8 @@
         </tbody>
     </table>
 </fieldset>
+
+<script>document.onclick = clickwave;</script>
+
 </body>
 </html>
