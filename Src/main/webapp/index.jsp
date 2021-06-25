@@ -65,6 +65,12 @@
         </form>
     </div>
 
+    <div class="headPart home" onclick="<%=randomOnClick%>">
+        <a href="index.jsp">
+            <img src="icons/Home.png">
+        </a>
+    </div>
+
     <div class="headPart welcome" style="display: <%=userDisplay%>">
         <a href="uzone.jsp">欢迎您，<%=curUser%>
         </a>

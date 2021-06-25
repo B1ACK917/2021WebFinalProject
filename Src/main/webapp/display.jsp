@@ -97,8 +97,14 @@
         </form>
     </div>
 
+    <div class="headPart home" onclick="<%=randomOnClick%>">
+        <a href="index.jsp">
+            <img src="icons/Home.png">
+        </a>
+    </div>
+
     <div class="headPart welcome" style="display: <%=userDisplay%>">
-        <a>欢迎您，<%=curUser%>
+        <a href="uzone.jsp">欢迎您，<%=curUser%>
         </a>
     </div>
     <form action="./logout" method="post" style="display: none;" id="logoutForm"></form>
