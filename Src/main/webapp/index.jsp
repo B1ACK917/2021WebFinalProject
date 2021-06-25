@@ -48,7 +48,7 @@
 
 <div id="header">
     <div class="headPart explore" onclick="<%=exploreOnClick%>">
-        <a>
+        <a href="./explorer.jsp">
             <i class="fa fa-bars"
                aria-hidden="true"></i>
             探索</a>

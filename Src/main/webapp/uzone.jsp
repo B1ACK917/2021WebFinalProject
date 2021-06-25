@@ -53,13 +53,13 @@
     Class.forName("com.mysql.jdbc.Driver");
     c = DriverManager.getConnection(connectString, user, pwd);
     stmt = c.createStatement();
-    String sql = "SELECT COUNT(*) FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + ";";
+    String sql = "SELECT COUNT(*) FROM IMAGE WHERE userId=" + userId + ";";
     ResultSet rs = stmt.executeQuery(sql);
 
     if (rs.next())
         userImageNum = rs.getInt(1);
 
-    sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + " ORDER BY CreateTime DESC" + " limit " + skip + " , " + pageSize + ";";
+    sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime DESC" + " limit " + skip + " , " + pageSize + ";";
     rs = stmt.executeQuery(sql);
     String[] tableImgs = new String[8];
     String[] previewUrls = new String[8];
@@ -124,7 +124,7 @@
 <body>
 <div id="header">
     <div class="headPart explore" onclick="<%=exploreOnClick%>">
-        <a>
+        <a href="./explorer.jsp">
             <i class="fa fa-bars"
                aria-hidden="true"></i>
             探索</a>
@@ -185,12 +185,6 @@
                             <%=userImageNum%>
                         </b>
                         <span>图片</span>
-                    </a>
-                    <a class="numberFigures" href="<%=userZoneUrl%>">
-                        <b>
-                            <%=userAlbumNum%>
-                        </b>
-                        <span>相册</span>
                     </a>
                 </div>
             </div>
