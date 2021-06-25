@@ -46,15 +46,17 @@ String pwd = "y7tM7hftsFSyMC2y";
 Class.forName("com.mysql.jdbc.Driver");
 c = DriverManager.getConnection(connectString, user, pwd);
 stmt = c.createStatement();
-String sql = "SELECT * FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + ";";
+String sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " or 0=" + authority + ";";
 ResultSet rs = stmt.executeQuery(sql);
 String[] tableImgs = new String[8];
+String[] previewUrls = new String[8];
 int cnt = 0;
 URL baseUrl = new URL(request.getRequestURL().toString());
 for(int i = 0; i < 8; i++){
 	if(rs.next()){
 		String path = rs.getString("Path");
 		tableImgs[i] = new URL(baseUrl, path).toString();
+		previewUrls[i] = "./preview?id=" + rs.getInt("ID");
 	}
 }
 rs.close();
@@ -215,16 +217,16 @@ rs.close();
             <div id="contentImgs">
                 <table id="imgTable" class="imgTable">
                     <tr>
-                        <td><img src="<%=tableImgs[0]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
-                        <td><img src="<%=tableImgs[1]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
-                        <td><img src="<%=tableImgs[2]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
-                        <td><img src="<%=tableImgs[3]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
+                        <td><a href="<%=previewUrls[0]%>"><img src="<%=tableImgs[0]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
+                        <td><a href="<%=previewUrls[1]%>"><img src="<%=tableImgs[1]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
+                        <td><a href="<%=previewUrls[2]%>"><img src="<%=tableImgs[2]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
+                        <td><a href="<%=previewUrls[3]%>"><img src="<%=tableImgs[3]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
                     </tr>
                     <tr>
-                        <td><img src="<%=tableImgs[4]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
-                        <td><img src="<%=tableImgs[5]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
-                        <td><img src="<%=tableImgs[6]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
-                        <td><img src="<%=tableImgs[7]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></td>
+                        <td><a href="<%=previewUrls[4]%>"><img src="<%=tableImgs[4]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
+                        <td><a href="<%=previewUrls[5]%>"><img src="<%=tableImgs[5]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
+                        <td><a href="<%=previewUrls[6]%>"><img src="<%=tableImgs[6]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
+                        <td><a href="<%=previewUrls[7]%>"><img src="<%=tableImgs[7]%>" class="tableImg" onerror="this.src='icons/alp0.png'"></a></td>
                     </tr>
                 </table>
             </div>
