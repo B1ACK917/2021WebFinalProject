@@ -18,7 +18,7 @@
         logStatus = "登出";
         logOnClick = "postLogout()";
     }
-    
+
 %>
 <%
     String picName = "";
@@ -27,10 +27,10 @@
     String picDeleteUrl = "";
 
     // Test Usage
-    picName = "1.jpg";
-    picUrl = "../testResource/1.jpg";
-    picPosition = picUrl;
-    picDeleteUrl = picUrl;
+//    picName = "1.jpg";
+//    picUrl = "../testResource/1.jpg";
+//    picPosition = picUrl;
+//    picDeleteUrl = picUrl;
 
     // True Usage
     picUrl = request.getAttribute("url").toString();
@@ -42,8 +42,7 @@
         picName = "error.jpg";
     }
     picPosition = picUrl;
-    if(deleteUrl != null) picDeleteUrl = deleteUrl.toString();
-    picDeleteUrl = request.getAttribute("deleteUrl").toString();
+    if (deleteUrl != null) picDeleteUrl = deleteUrl.toString();
 %>
 
 <%--TODO:
@@ -66,11 +65,13 @@
     <script>
         window.onload = () => {
             moveElementToCenter("imgPreview");
-        	var element=document.getElementById("user_img");
-        	console.log(element);
-	       	if (element.offsetWidth>element.offsetHeight) element.style.width="280px";
-	       	else element.style.height="280px";
-        	console.log(element);
+            var element = document.getElementById("user_img");
+            if (element.offsetWidth > element.offsetHeight) element.style.width = "280px";
+            else element.style.height = "280px";
+            if ("<%=picDeleteUrl%>" === "") {
+                document.getElementById("removeLink").style = "display:none;"
+                document.getElementById("removeContainer").style = "display:none;"
+            }
         }
         window.onresize = () => {
             moveElementToCenter("imgPreview")
@@ -124,8 +125,8 @@
             <td style="width:260px; text-align: center;">
                 <a href="<%=picUrl%>" target="_blank">
                     <img class="lazy" id="user_img"
-                        src="<%=picPosition%>"
-                        style="max-width: 300px;max-height: 300px;">
+                         src="<%=picPosition%>"
+                         style="max-width: 300px;max-height: 300px;">
                 </a>
             </td>
             <td class="padding10" style="text-align:left;">
@@ -165,8 +166,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="dlinput_header mt3">Removal Link (to delete the image)</div>
-                <div class="dlinput_container">
+                <div class="dlinput_header mt3" id="removeLink">Removal Link (to delete the image)</div>
+                <div class="dlinput_container" id="removeContainer">
                     <div class="row">
                         <div class="col-md-8">
                             <input class="form-control" type="text" onclick="this.select();"
