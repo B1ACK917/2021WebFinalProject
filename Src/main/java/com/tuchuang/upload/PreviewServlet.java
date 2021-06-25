@@ -1,6 +1,7 @@
 package com.tuchuang.upload;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -9,15 +10,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.regex.Pattern;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-@WebServlet("/random")
-public class RandomServlet extends HttpServlet {
+@WebServlet("/preview")
+public class PreviewServlet extends HttpServlet {
 	private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Connection c = null;
 		String connectString = "jdbc:mysql://web.malloc.fun:3306/web_malloc_fun" + "?autoReconnect=true&useUnicode=true"
@@ -34,22 +36,42 @@ public class RandomServlet extends HttpServlet {
 		return url.toString();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-		String sql = "SELECT ID FROM IMAGE WHERE ID >= ((SELECT MAX(ID) FROM IMAGE)-(SELECT MIN(ID) FROM IMAGE)) * RAND() + (SELECT MIN(ID) FROM IMAGE)  LIMIT 1;";
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String imageIdStr = request.getParameter("id");
+		if(imageIdStr == null || "" == imageIdStr.trim()) response.sendRedirect("./index.jsp");
+		int imageId = Integer.parseInt(imageIdStr);
+
 		Connection c = null;
 		Statement stmt = null;
+
+		HttpSession session = request.getSession();
+		
+		int userId = -1;
+		int authority = -1;
+		Object userIdObj = session.getAttribute("userId");
+		if(userIdObj != null) userId = (int) userIdObj;
+		Object authorityObj = session.getAttribute("authority");
+		if(authorityObj != null) authority = (int) authorityObj;
 		
 		try {
 			c = getConnection();
 			stmt = c.createStatement();
+			String sql = "SELECT Path, Token, UserId FROM IMAGE WHERE ID = " + imageId + ";";
+			URL baseUrl = new URL(request.getRequestURL().toString());
 			ResultSet rs = stmt.executeQuery(sql);
-			int id = 0;
-			while(rs.next()) {
-				id = rs.getInt("ID");
+			if(rs.next()) {
+				int imgUserId = rs.getInt("UserId");
+				if(imgUserId == userId || authority == 0) {
+					request.setAttribute("deleteUrl", concatenate(baseUrl, "./delete?token=" + rs.getString("Token")));;
+				}
+				request.setAttribute("url", concatenate(baseUrl, "./" + rs.getString("Path")));
+	    		getServletContext().getRequestDispatcher("/display.jsp").forward(request, response);
             }
+			else {
+				response.sendRedirect("./index.jsp");
+			}
             rs.close();
-
-    		response.sendRedirect("./preview?id=" + id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

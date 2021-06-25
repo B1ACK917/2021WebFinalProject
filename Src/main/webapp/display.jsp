@@ -18,6 +18,7 @@
         logStatus = "登出";
         logOnClick = "postLogout()";
     }
+    
 %>
 <%
     String picName = "";
@@ -85,7 +86,7 @@
             探索</a>
     </div>
     <div class="headPart random" onclick="<%=randomOnClick%>">
-        <a>
+        <a href="./random">
             <i class="fa fa-random"
                aria-hidden="true"></i>
             随机</a>
@@ -97,7 +98,7 @@
     </div>
 
     <div class="headPart welcome" style="display: <%=userDisplay%>">
-        <a href="uzone.jsp">欢迎您，<%=curUser%>
+        <a>欢迎您，<%=curUser%>
         </a>
     </div>
     <form action="./logout" method="post" style="display: none;" id="logoutForm"></form>

@@ -132,31 +132,29 @@ public class UploadServlet extends HttpServlet {
 		return sb.toString();
 	}
 
-	private String insertIntoDatabase(int userId, String sha1, String path) {
+	private int insertIntoDatabase(int userId, String sha1, String path) {
 		Connection c = null;
 		Statement stmt = null;
 
 		try {
 			c = getConnection();
 			stmt = c.createStatement();
-//			String querySql = "SELECT Token FROM IMAGE WHERE userId = " + userId + " and sha1 = '" + sha1 + "';";
-//			System.out.println(querySql);
-//			ResultSet rs = stmt.executeQuery(querySql);
-//			boolean isNotEmpty = rs.next();
-//			System.out.println(isNotEmpty);
-//			if(isNotEmpty) return rs.getString("Token");
-
 			String token = getRandomString(40);
 			System.out.println(token);
 			String insertSql = "INSERT INTO IMAGE VALUES(NULL, '" + sha1 + "', '" + token + "', '" + path + "', "
 					+ userId + ", " + "now() )";
-			// System.out.println(insertSql);
-			int res = stmt.executeUpdate(insertSql);
-			return res != 0 ? token : null;
+			
+			stmt.executeUpdate(insertSql, Statement.RETURN_GENERATED_KEYS);
+
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()){
+			    return rs.getInt(1);
+			}
+			return -1;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			return -1;
 		} finally {
 			// 关闭资源
 			try {
@@ -172,7 +170,7 @@ public class UploadServlet extends HttpServlet {
 		}
 	}
 
-	private void insertImage(int userId, FileItem item, HttpServletRequest request) throws Exception {
+	private int insertImage(int userId, FileItem item, HttpServletRequest request) throws Exception {
 		InputStream input = item.getInputStream();
 		ImageIO.read(input);
 		input.close();
@@ -185,19 +183,15 @@ public class UploadServlet extends HttpServlet {
 		String uploadPath = ORIGIN_DIRECTORY + "/" + String.valueOf(userId);
 		createIfNotExists(getRealPath(uploadPath));
 		String filePath = uploadPath + "/" + getRandomString(16) + "." + extension;
-		String token = insertIntoDatabase(userId, sha1, filePath);
-		if (token != null) {
+		int id = insertIntoDatabase(userId, sha1, filePath);
+		if (id != -1) {
 			File storeFile = new File(getRealPath(filePath));
 			if (storeFile.exists())
 				storeFile.delete();
-			// 在控制台输出文件的上传路径
 			System.out.println(storeFile.getAbsolutePath());
-			// 保存文件到硬盘
 			item.write(storeFile);
-			URL baseUrl = new URL(request.getRequestURL().toString());
-			request.setAttribute("url", concatenate(baseUrl, "./" + filePath));
-			request.setAttribute("deleteUrl", concatenate(baseUrl, "./delete?token=" + token));;
 		}
+		return id;
 	}
 
 	/**
@@ -251,18 +245,14 @@ public class UploadServlet extends HttpServlet {
 				for (FileItem item : formItems) {
 					if (!item.isFormField()) {
 						try {
-							insertImage(userId, item, request);
-							request.setAttribute("message", "文件上传成功!");
+							int id = insertImage(userId, item, request);
+							response.sendRedirect("./preview?id=" + id);
 						} catch (Exception e) {
-							request.setAttribute("message", "错误信息: " + e.getMessage());
 						}
 					}
 				}
 			}
 		} catch (Exception ex) {
-			request.setAttribute("message", "错误信息: " + ex.getMessage());
 		}
-		// 跳转到 message.jsp
-		getServletContext().getRequestDispatcher("/preview.jsp").forward(request, response);
 	}
 }
