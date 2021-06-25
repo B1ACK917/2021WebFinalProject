@@ -1,0 +1,201 @@
+* {
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    list-style: none;
+    color: white;
+}
+
+#contentWrapper {
+    background-size: cover;
+    z-index: 1;
+    position: fixed;
+    height: 80%;
+    width: 65%;
+    min-width: 1000px;
+    min-height: 880px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+}
+
+#contentWrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    filter: blur(20px);
+    z-index: -1;
+    margin: -30px;
+    background: url('../images/background1.jpg')  0 / cover fixed;
+}
+
+/*#contentWrapper {*/
+/*    position: fixed;*/
+/*    height: 70%;*/
+/*    width: 95%;*/
+/*    background: rgba(255, 255, 255, 0.5);*/
+/*    border-radius: 16px;*/
+/*}*/
+
+#contentWidth {
+    margin: 0 40px auto;
+    height: 100%;
+    position: relative;
+}
+
+.topUser {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: auto;
+    min-height: 130px;
+}
+
+.topUser .userImage {
+    width: 160px;
+    height: 160px;
+    border: 4px solid #FFF;
+    float: left;
+    margin-right: 10px;
+    border-radius: 100%;
+}
+
+.topUser .userContent {
+    position: static;
+    padding-right: 220px;
+    clear: both;
+    overflow: visible;
+}
+.userContent a {
+    cursor: pointer;
+}
+
+.topUser .userMeta {
+    margin-bottom: 10px;
+}
+
+a.userMetaLink {
+    font-size: 0.93rem;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+a.userMetaLink i, a.userMetaLink:hover i {
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+.topUserRight {
+    float: right;
+    height: auto;
+    margin-left: auto;
+}
+
+.topUser .topUserRight > * {
+    margin-bottom: 10px;
+}
+
+.textAlignRight {
+    text-align: right;
+}
+
+.topUserRight .numberFigures:first-child {
+    border-left: 0;
+}
+
+.topUser .topUserRight {
+    right: 0;
+}
+
+.topUser > div {
+    position: absolute;
+    top: 0;
+}
+
+.numberFigures {
+    margin-top: 0;
+    font-size: 1.21em;
+    line-height: 1.21em;
+    color: inherit;
+    text-decoration: none;
+}
+
+.header > h1 {
+    margin-right: 20px;
+    font-size: 22px;
+    font-weight: normal;
+    float: left;
+    cursor: default;
+}
+
+.header {
+    border-bottom: 1px solid #E5E5E5;
+    height: 50px;
+    position: relative;
+    overflow: visible;
+    clear: both;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header ul.contentTabs {
+    float: left;
+}
+
+.contentTabs li {
+    list-style: none;
+    float: left;
+    font-size: 1em;
+    height: 50px;
+    display: block;
+    padding: 0 10px 0 10px;
+    cursor: default;
+}
+
+.header ul.contentTabs .current {
+    border-bottom-color: cadetblue;
+    border-bottom-width: 2px;
+}
+
+.imgTable {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgTable td {
+    min-width: 240px;
+    max-width: 240px;
+    min-height: 240px;
+    max-height: 240px;
+    height: 240px;
+    white-space: nowrap;
+}
+
+.tableImg {
+    width: 240px;
+    height: 240px;
+}
+
+#pageBtnDiv {
+    width: 100%;
+    max-width: 980px;
+    margin: 80px auto;
+}
+
+.btnLine {
+    height: 80px;
+}
+
+.leftBtn {
+    float: left;
+}
+
+.rightBtn {
+    float: right;
+}
+
+.btn {
+    cursor: pointer;
+}

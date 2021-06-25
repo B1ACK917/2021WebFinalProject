@@ -118,7 +118,8 @@
 </body>
 
 
-<script type="text/javascript" color="255,255,255" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+<script type="text/javascript" color="255,255,255" opacity='0.7' zIndex="-2" count="200"
+        src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
 <script>document.onclick = clickwave;</script>
 
