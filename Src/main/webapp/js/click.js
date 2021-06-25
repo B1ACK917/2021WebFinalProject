@@ -3,7 +3,7 @@ function clickwave(e) {
     symbol.style.position = "absolute";
 	symbol.style.left = (e.pageX) + "px";
     symbol.style.top = (e.pageY) + "px";
-    symbol.style.zIndex = 9999;
+    symbol.style.zIndex = -1;
 	symbol.style.transition="all 1.5s";
     symbol.style.opacity = 1;
 	
@@ -27,4 +27,5 @@ function clickwave(e) {
         symbol.style.opacity = 0;
 		symbol.style.backgroundColor = "white";
     });
+
 };

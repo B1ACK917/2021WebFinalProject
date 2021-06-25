@@ -20,10 +20,10 @@ legend {
 }
 
 .dlinput_header {
-    font-family: consolas;
-    color: rgb(255, 255, 255);
+	font-family:consolas;
+	color:rgb(255,255,255);
 }
 
 .lazy {
-    margin-right: 10px;
+	margin-right: 10px;
 }

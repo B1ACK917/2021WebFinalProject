@@ -41,8 +41,8 @@
         picName = "error.jpg";
     }
     picPosition = picUrl;
-    if(deleteUrl != null)
-    	picDeleteUrl = deleteUrl.toString();
+    if(deleteUrl != null) picDeleteUrl = deleteUrl.toString();
+    picDeleteUrl = request.getAttribute("deleteUrl").toString();
 %>
 
 <%--TODO:
@@ -64,7 +64,12 @@
     <script src="js/click.js"></script>
     <script>
         window.onload = () => {
-            moveElementToCenter("imgPreview")
+            moveElementToCenter("imgPreview");
+        	var element=document.getElementById("user_img");
+        	console.log(element);
+	       	if (element.offsetWidth>element.offsetHeight) element.style.width="280px";
+	       	else element.style.height="280px";
+        	console.log(element);
         }
         window.onresize = () => {
             moveElementToCenter("imgPreview")
@@ -111,9 +116,9 @@
         <tr>
             <td style="width:260px; text-align: center;">
                 <a href="<%=picUrl%>" target="_blank">
-                    <img class="lazy" width="260" height="244"
-                         src="<%=picPosition%>"
-                         style="max-width: 300px;max-height: 300px;">
+                    <img class="lazy" id="user_img"
+                        src="<%=picPosition%>"
+                        style="max-width: 300px;max-height: 300px;">
                 </a>
             </td>
             <td class="padding10" style="text-align:left;">
