@@ -130,26 +130,27 @@
         }
 
         function prevPage() {
+            let orderBy = parseInt("<%=orderBy%>")
             let curPage = parseInt("<%=curPage%>")
             if (curPage > 0) {
-                window.location.href = "uzone.jsp?page=" + (curPage - 1) + "&orderBy=" + orderType
+                window.location.href = "uzone.jsp?page=" + (curPage - 1) + "&orderBy=" + orderBy
             } else {
-                window.location.href = "uzone.jsp?page=0" + "&orderBy=" + orderType
+                window.location.href = "uzone.jsp?page=0" + "&orderBy=" + orderBy
             }
         }
 
         function nextPage() {
+            let orderBy = parseInt("<%=orderBy%>")
             let curPage = parseInt("<%=curPage%>")
             let maxPage = Math.floor(parseInt("<%=userImageNum%>") / 8)
             if (curPage >= maxPage) {
-                window.location.href = "uzone.jsp?page=" + maxPage + "&orderBy=" + orderType
+                window.location.href = "uzone.jsp?page=" + maxPage + "&orderBy=" + orderBy
             } else {
-                window.location.href = "uzone.jsp?page=" + (curPage + 1) + "&orderBy=" + orderType
+                window.location.href = "uzone.jsp?page=" + (curPage + 1) + "&orderBy=" + orderBy
             }
         }
 
         function changeOrderBy(orderType) {
-            let orderBy = parseInt(orderType)
             let curPage = parseInt("<%=curPage%>")
             if (orderType > 2 || orderType < 0) return 0
             else {
