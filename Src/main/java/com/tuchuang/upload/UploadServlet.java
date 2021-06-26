@@ -112,7 +112,7 @@ public class UploadServlet extends HttpServlet {
 					+ "    ID         INTEGER   PRIMARY KEY AUTO_INCREMENT\n" + "                         NOT NULL,\n"
 					+ "    SHA1       CHAR (40) NOT NULL,\n" + "    Token      CHAR (40) NOT NULL,\n"
 					+ "    Path       TEXT   NOT NULL,\n" + "    UserId     INTEGER   NOT NULL,\n"
-					+ "    CreateTime DATE      NOT NULL\n" + ");";
+					+ "    CreateTime DATETIME      NOT NULL\n" + ");";
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.close();
