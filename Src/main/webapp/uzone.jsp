@@ -77,7 +77,16 @@
     if (rs.next())
         userImageNum = rs.getInt(1);
 
-    sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime DESC" + " limit " + skip + " , " + pageSize + ";";
+    if(orderBy == 0) {
+	    sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime DESC" + " limit " + skip + " , " + pageSize + ";";
+    }
+    else if(orderBy == 1){
+	    sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime ASC" + " limit " + skip + " , " + pageSize + ";";
+    }
+    else {
+    	sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY Path ASC" + " limit " + skip + " , " + pageSize + ";";
+    }
+	
     rs = stmt.executeQuery(sql);
     String[] tableImgs = new String[8];
     String[] previewUrls = new String[8];
@@ -123,9 +132,9 @@
         function prevPage() {
             let curPage = parseInt("<%=curPage%>")
             if (curPage > 0) {
-                window.location.href = "uzone.jsp?page=" + (curPage - 1)
+                window.location.href = "uzone.jsp?page=" + (curPage - 1) + "&orderBy=" + orderType
             } else {
-                window.location.href = "uzone.jsp?page=0"
+                window.location.href = "uzone.jsp?page=0" + "&orderBy=" + orderType
             }
         }
 
@@ -133,9 +142,9 @@
             let curPage = parseInt("<%=curPage%>")
             let maxPage = Math.floor(parseInt("<%=userImageNum%>") / 8)
             if (curPage >= maxPage) {
-                window.location.href = "uzone.jsp?page=" + maxPage
+                window.location.href = "uzone.jsp?page=" + maxPage + "&orderBy=" + orderType
             } else {
-                window.location.href = "uzone.jsp?page=" + (curPage + 1)
+                window.location.href = "uzone.jsp?page=" + (curPage + 1) + "&orderBy=" + orderType
             }
         }
 
