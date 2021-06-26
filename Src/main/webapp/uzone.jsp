@@ -35,6 +35,9 @@
         uzoneUrl = "./uzone.jsp";
     }
 
+%>
+
+<%
 
     int pageSize = 8;
     int curPage;
@@ -44,6 +47,15 @@
     } else {
         System.out.println(pageObj);
         curPage = Integer.parseInt(pageObj.toString());
+    }
+
+    int orderBy;
+    Object orderObj = request.getParameter("orderBy");
+    if (orderObj == null) {
+        orderBy = 0;
+    } else {
+        System.out.println(orderObj);
+        orderBy = Integer.parseInt(orderObj.toString());
     }
 
     int skip = curPage * pageSize;
@@ -80,6 +92,7 @@
     }
     rs.close();
 %>
+
 <%
     String userName = curUser;
     String userZoneUrl = "./uzone.jsp";
@@ -101,6 +114,7 @@
         window.onload = () => {
             moveElementToCenter("contentWrapper")
             removeAnchorDecoration(".tableImg")
+            relocateCurOrder()
         }
         window.onresize = () => {
             moveElementToCenter("contentWrapper")
@@ -123,6 +137,24 @@
             } else {
                 window.location.href = "uzone.jsp?page=" + (curPage + 1)
             }
+        }
+
+        function changeOrderBy(orderType) {
+            let orderBy = parseInt(orderType)
+            let curPage = parseInt("<%=curPage%>")
+            if (orderType > 2 || orderType < 0) return 0
+            else {
+                window.location.href = "uzone.jsp?page=" + curPage + "&orderBy=" + orderType
+            }
+        }
+
+        function relocateCurOrder() {
+            let lis = document.querySelectorAll('.contentTabs>li')
+            lis.forEach(element => {
+                element.className = ""
+            })
+            let orderBy = parseInt("<%=orderBy%>")
+            lis[orderBy].className = "current"
         }
     </script>
 </head>
@@ -201,11 +233,11 @@
         <div id="topTabs" class="header">
             <h1><%=userName%> 的图片</h1>
             <ul class="contentTabs">
-                <li class="current"><a>最新的</a>
+                <li class="current" onclick="changeOrderBy(0)"><a>最新的</a>
                 </li>
-                <li class=" "><a>最旧的</a>
+                <li class=" " onclick="changeOrderBy(1)"><a>最旧的</a>
                 </li>
-                <li class=" "><a>AZ</a>
+                <li class=" " onclick="changeOrderBy(2)"><a>AZ</a>
                 </li>
             </ul>
         </div>

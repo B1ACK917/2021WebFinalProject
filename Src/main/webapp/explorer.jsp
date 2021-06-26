@@ -35,7 +35,9 @@
         uzoneUrl = "./uzone.jsp";
     }
 
+%>
 
+<%
     int pageSize = 8;
     int curPage;
     Object pageObj = request.getParameter("page");
@@ -80,19 +82,11 @@
     }
     rs.close();
 %>
+
 <%
-    // Test Usage
-
-    String userName = "Test";
-    String userZoneUrl = "http://localhost:8080/imgDepot/uzone.jsp";
-
-    Number userAlbumNum = 2;
-
-    // True Usage
-//    userName = request.getAttribute("username").toString();
-//    userZoneUrl = "http://localhost:8080/imgDepot/uzone.jsp";
-//    userImageNum = request.getAttribute("totalImgs").toString();
-//    userAlbumNum = request.getAttribute("totalAlbums").toString();
+    String userName = curUser;
+    String userZoneUrl = "./uzone.jsp";
+    Number userAlbumNum = 0;
 %>
 
 
@@ -133,6 +127,7 @@
                 window.location.href = "explorer.jsp?page=" + (curPage + 1)
             }
         }
+
     </script>
 </head>
 
