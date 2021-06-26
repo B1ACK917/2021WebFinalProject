@@ -158,7 +158,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <input class="form-control" type="text" onclick="this.select();"
-                                   value="![86377681_p0.jpg](<%=picPosition%>)">
+                                   value="![<%=picName%>](<%=picPosition%>)">
                         </div>
                     </div>
                 </div>
