@@ -77,16 +77,14 @@
     if (rs.next())
         userImageNum = rs.getInt(1);
 
-    if(orderBy == 0) {
-	    sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime DESC" + " limit " + skip + " , " + pageSize + ";";
+    if (orderBy == 0) {
+        sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime DESC" + " limit " + skip + " , " + pageSize + ";";
+    } else if (orderBy == 1) {
+        sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime ASC" + " limit " + skip + " , " + pageSize + ";";
+    } else {
+        sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY Path ASC" + " limit " + skip + " , " + pageSize + ";";
     }
-    else if(orderBy == 1){
-	    sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY CreateTime ASC" + " limit " + skip + " , " + pageSize + ";";
-    }
-    else {
-    	sql = "SELECT ID, Path FROM IMAGE WHERE userId=" + userId + " ORDER BY Path ASC" + " limit " + skip + " , " + pageSize + ";";
-    }
-	
+
     rs = stmt.executeQuery(sql);
     String[] tableImgs = new String[8];
     String[] previewUrls = new String[8];
@@ -142,7 +140,7 @@
         function nextPage() {
             let orderBy = parseInt("<%=orderBy%>")
             let curPage = parseInt("<%=curPage%>")
-            let maxPage = Math.floor(parseInt("<%=userImageNum%>") / 8)
+            let maxPage = Math.ceil(parseInt("<%=userImageNum%>") / 8) - 1
             if (curPage >= maxPage) {
                 window.location.href = "uzone.jsp?page=" + maxPage + "&orderBy=" + orderBy
             } else {

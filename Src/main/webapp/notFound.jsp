@@ -3,7 +3,6 @@
     Object obj = session.getAttribute("username");
     String exploreOnClick = "showLoginBox()";
     String randomOnClick = "showLoginBox()";
-    String uploadOnClick = "showLoginBox()";
     String logOnClick = "showLoginBox()";
     String curUser = "none", userDisplay = "none", logStatus = "登入";
     String exploreUrl = "###";
@@ -17,7 +16,6 @@
         userDisplay = "block";
         exploreOnClick = "";
         randomOnClick = "";
-        uploadOnClick = "selectFile()";
         logStatus = "登出";
         logOnClick = "postLogout()";
         exploreUrl = "./explorer.jsp";
@@ -25,10 +23,7 @@
         uzoneUrl = "./uzone.jsp";
     }
 %>
-
 <html>
-
-
 <head>
     <meta charset="utf-8">
     <title>图床</title>
@@ -38,21 +33,9 @@
     <script src="js/utils.js"></script>
     <script src="js/index.js"></script>
     <script src="js/click.js"></script>
-    <script>
-        window.onload = () => {
-            moveElementToCenter("main");
-            moveElementToCenter("loginFrame")
-            removeLoginFrame()
-        }
-        window.onresize = () => {
-            moveElementToCenter("main");
-            moveElementToCenter("loginFrame")
-        }
-    </script>
 </head>
 
-<body>
-
+<body id="notFoundPageBody">
 <div id="header">
     <div class="headPart explore" onclick="<%=exploreOnClick%>">
         <a href="<%=exploreUrl%>">
@@ -89,48 +72,5 @@
     </div>
 </div>
 
-<div id="main">
-    <h1 style="text-align: center; color: white; height: 80px; ">上传与分享您的图片</h1>
-    <h3 style="text-align: center; color: white; height: 80px;">
-        任意拖放图片到这里, 即开始上传你的图片。 <br>
-        或者点击下面的图标以开始批量上传你的图片。
-    </h3>
-    <form action="./upload" method="post" style="display: none;" id="fileUploadForm" enctype="multipart/form-data">
-        <input type="file" name="images" id="fileInput" onchange="postFile()" accept="image/*">
-    </form>
-    <div class="upload" id="uploadBtn" onclick="<%=uploadOnClick%>">
-        <a>
-            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-            开始上传
-        </a>
-    </div>
-</div>
-
-<div id="loginFrame">
-    <form id="loginArgs" method="POST" action="./login">
-        <div class="login-header">
-            <img src="icons/tabler-icon-activity.png">
-            <p>Login</p>
-        </div>
-        <div class="login-input-box">
-            <i class="fa fa-user" aria-hidden="true" style="width: 20px;"></i>
-            <input type="text" placeholder="账户" name="user" id="userInput">
-        </div>
-        <div class="login-input-box">
-            <i class="fa fa-lock" aria-hidden="true" style="width: 20px;"></i>
-            <input type="password" placeholder="密码" name="password" id="pwdInput">
-        </div>
-    </form>
-    <div class="login-button-box">
-        <button onclick="postAccount()">登录</button>
-    </div>
-    <div class="back-arrow">
-        <i class="fa fa-arrow-left" aria-hidden="true" onclick="hideLoginBox()"></i>
-    </div>
-</div>
 </body>
-
-<script>document.onclick = clickwave;</script>
-<script type="text/javascript" color="255,255,255" opacity='0.7' zIndex="-2" count="200" src="js/net.js"></script>
-
 </html>

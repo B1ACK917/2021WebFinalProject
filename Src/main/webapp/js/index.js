@@ -82,11 +82,11 @@ function selectFile() {
 
 function postFile() {
     let fileInput = document.getElementById('fileInput')
-    let filename = fileInput.value
-    let index = filename.lastIndexOf('.');
-    let suffix = filename.substr(index + 1);
-    if (suffix in {jpg: true, jpeg: true, png: true})
-        document.getElementById('fileUploadForm').submit()
+    // let filename = fileInput.value
+    // let index = filename.lastIndexOf('.');
+    // let suffix = filename.substr(index + 1);
+    // if (suffix in {jpg: true, jpeg: true, png: true})
+    document.getElementById('fileUploadForm').submit()
 }
 
 function postLogout() {

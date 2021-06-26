@@ -2,8 +2,25 @@ html {
   font-family: 宋体;
   font-size: 20px;
 }
+
 body {
   background-image: url('../images/background1.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  min-width: 300px;
+}
+
+#removedPageBody {
+  background-image: url('../images/removed.png') !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  min-width: 300px;
+}
+
+#notFoundPageBody {
+  background-image: url('../images/404.png') !important;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
