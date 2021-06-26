@@ -18,7 +18,7 @@ body {
   background: rgba(255, 00, 255, 0);
   height: 50px;
   width: 100%;
-  z-index: 1;
+  z-index: 999;
 }
 .headPart {
   display: inline-block;
@@ -91,7 +91,6 @@ body {
   top: 15px;
   left: 47%;
   height: 50px;
-  z-index: 999;
 }
 
 .welcome {
